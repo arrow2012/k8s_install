@@ -1,0 +1,31 @@
+apiVersion: storage.k8s.io/v1
+#allowVolumeExpansion: true 开启允许扩容功能，但是nfs类型不支持
+kind: StorageClass
+metadata:
+  name: pointsmart-nfs-storage
+mountOptions:
+- vers=4
+- minorversion=0
+- noresvport
+- rsize=1048576,
+- wsize=1048576,
+- hard,
+- timeo=600,
+- retrans=2
+provisioner: fuseim.pri/ifs
+parameters:
+  archiveOnDelete: "false"
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: alicloud-nas
+mountOptions:
+  - nolock,tcp,noresvport
+  - vers=3
+parameters:
+  server: "39c0c48dee-opf74.cn-shanghai.nas.aliyuncs.com:/nasroot1/"
+  driver: flexvolume
+provisioner: alicloud/nas
+reclaimPolicy: Delete

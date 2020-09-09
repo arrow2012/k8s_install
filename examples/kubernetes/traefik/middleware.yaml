@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-stripprefixregex
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/cheddar/"
+
+---
+# Redirect with domain replacement
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-redirectregex
+spec:
+  redirectRegex:
+    permanent : true
+    regex : "https://(.*)/.well-known/(card|cal)dav"
+    replacement : "https://${1}/remote.php/dav/"

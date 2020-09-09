@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox
+  labels:
+    app: busybox-svc
+spec:
+  selector:
+    app: busybox
+  clusterIP: None
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-old
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      hostname: busybox-1
+      subdomain: default-subdomain
+      containers:
+        - name: busybox
+          image: busybox:1.24
+          command:
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "touch /mnt/SUCCESS && sleep 36000 || sleep 36000"
+      restartPolicy: "Always"
+
+#          ports:
+#            - containerPort: 80
+#          livenessProbe:
+#            exec:
+#              command:
+#                - cat
+#                - /usr/share/nginx/html/index.html
+#            initialDelaySeconds: 5
+#            periodSeconds: 5
+#          readinessProbe:
+#            exec:
+#              command:
+#                - cat
+#                - /tmp/read
+#            initialDelaySeconds: 5
+#            periodSeconds: 5

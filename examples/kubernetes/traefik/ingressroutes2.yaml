@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route2
+spec:
+  routes:
+    - match: Host(`123.gk.com`) #&& (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      kind: Rule
+      services:
+        - name: cheddar
+          port: 80
+#      middlewares:
+#        - name: test-redirectregex

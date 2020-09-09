@@ -1,0 +1,68 @@
+title = "config配置"
+[system]
+log_level = "debug"
+web_port = 8080
+logFile = "logs/infra"
+
+[local]
+key="/root/.ssh/id_rsa"
+cert_dir = "/etc/kubernetes/pki/"
+bin_dir = "/usr/local/bin/"
+
+
+[etcd]
+node_name_prefix="k8s-etcd-test00"
+cluster_ip=["192.168.120.93"]
+ssh_port=22
+ssh_username="root"
+data_dir="/var/lib/etcd"
+conf_dir="/etc/etcd/"
+conf_file="etcd.config.yml"
+client_sh="etcd.sh"
+cert_dir = "/etc/kubernetes/pki/"
+
+
+[k8s]
+kube_version="v1.18.6"
+cluster_name="k8s-test"
+master_host=["192.168.120.93"]
+node_host=["192.168.120.81"]
+ssh_port=22
+ssh_username="root"
+tmp_certdir="/etc/kubernetes/pki"
+ca_cert = "ca.pem"
+cert_dir = "/etc/kubernetes/pki/"
+kube_config_dir = "/etc/kubernetes/"
+kube_addons_config_dir = "/etc/kubernetes/addons"
+service_unit_dir = "/lib/systemd/system/"
+apiserver_service_unit = "kube-apiserver.service"
+controllermanager_service_unit = "kube-controller-manager.service"
+scheduler_service_unit = "kube-scheduler.service"
+
+SvcCIDR = "10.96.0.0/12"
+PodCIDR = "10.244.0.0/16"
+ClusterDns = "10.96.0.10"
+ClusterDomain = "cluster.local"
+ServiceNodePortRange = "30000-32767"
+
+apiserver_logdir = "/var/log/kubernetes/kube-apiserver"
+scheduler_logdir = "/var/log/kubernetes/kube-scheduler"
+controllerManger_logdir = "/var/log/kubernetes/kube-controller-manager"
+
+
+
+[docker]
+kube_image = "registry.cn-shanghai.aliyuncs.com/itcam/k8s:v1.18.6"
+etcd_image = "registry.cn-shanghai.aliyuncs.com/itcam/etcd:v3.4.10"
+pause_image = "itcam/pause-amd64:3.2"
+cni_binary = "cni-plugins-linux-amd64-v0.8.6.tgz"
+kube_proxy_image = "kubeimage/kube-proxy-amd64:v1.18.6"
+metrics_image = "registry.cn-shanghai.aliyuncs.com/itcam/metrics-server:v0.3.7"
+coredns_image = "coredns/coredns:1.7.0"
+
+
+
+[flannel]
+flannel_image = "quay.io/coreos/flannel:v0.12.0-amd64"
+healthzPort = 8471
+
